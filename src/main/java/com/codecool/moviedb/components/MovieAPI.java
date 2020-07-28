@@ -26,4 +26,11 @@ public class MovieAPI {
         return json;
     }
 
+    public JSONObject searchResults(String searchString) throws JSONException, IOException {
+        searchString = searchString.replaceAll(" ", "+");
+        String queryPath = "https://api.themoviedb.org/3/search/movie?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&query="
+                + searchString;
+        String result = remoteURLReader.readFromUrl(queryPath);
+        return new JSONObject(result);
+    }
 }
