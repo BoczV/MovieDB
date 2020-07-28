@@ -1,9 +1,7 @@
 package com.codecool.moviedb.controller;
 
-import com.codecool.moviedb.components.MovieAPI;
-import com.codecool.moviedb.model.Movie;
+import com.codecool.moviedb.components.HomepageMovieAPI;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,19 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
-@RequestMapping("/latest-movies")
+@RequestMapping("/popular-movies")
 @CrossOrigin("*")
-public class HomepageController {
+public class PopularMovieController {
+
     @Autowired
-    public MovieAPI movieAPI;
+    public HomepageMovieAPI homepageMovieAPI;
 
     @GetMapping
-    public String getLatestMovies() throws IOException, JSONException {
-        JSONObject response = movieAPI.getLatestMovies();
-        return response.toString();
+    public String getPopularMovies() throws IOException, JSONException {
+
+        return homepageMovieAPI.getPopularMovies().toString();
     }
 
 }
