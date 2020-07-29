@@ -1,13 +1,10 @@
 package com.codecool.moviedb.components;
 
-import com.codecool.moviedb.model.Movie;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.List;
 
 @Component
 public class HomepageMovieAPI {
