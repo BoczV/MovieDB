@@ -20,10 +20,6 @@ public class LatestMovieController {
 
     @GetMapping
     public String getLatestMovies() throws IOException, JSONException {
-
-//        JSONObject responseLatestMovies = homepageMovieAPI.getLatestMovies();
-//        JSONObject responsePopularMovies = homepageMovieAPI.getPopularMovies();
         return homepageMovieAPI.getLatestMovies().toString();
     }
-
 }
