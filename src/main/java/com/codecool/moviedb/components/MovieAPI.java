@@ -36,7 +36,6 @@ public class MovieAPI {
 
     public JSONObject getRandomMovie() throws IOException, JSONException {
         String result = getRandomPath();
-        System.out.println(result);
         return new JSONObject(result);
     }
 
