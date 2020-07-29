@@ -53,4 +53,10 @@ public class MovieAPI {
         }
         return result;
     }
+
+    public String getMovieById(String movieId) throws IOException {
+        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5";
+
+        return remoteURLReader.readFromUrl(path);
+    }
 }
