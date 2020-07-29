@@ -24,6 +24,6 @@ public class WatchListMemDao implements WatchListDaoInterface {
 
     @Override
     public void removeMovieFromWatchList(String movieId) {
-        watchList = watchList.stream().filter(movie -> movie.equals(movieId)).collect(Collectors.toList());
+        watchList = watchList.stream().filter(movie -> !movie.equals(movieId)).collect(Collectors.toList());
     }
 }

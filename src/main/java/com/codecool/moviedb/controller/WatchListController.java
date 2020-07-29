@@ -25,26 +25,28 @@ public class WatchListController {
         List<String> watchListIds = watchListMemDao.getWatchList();
         StringBuilder result = new StringBuilder();
         result.append("{ 'results': [");
-        for (String movieId: watchListIds) {
+        for (String movieId : watchListIds) {
             result.append(movieAPI.getMovieById(movieId)).append(",");
         }
         result.deleteCharAt(result.length() - 1);
         result.append("] }");
-        JSONObject jsonResult = new JSONObject(String.valueOf(result));
-        System.out.println(watchListMemDao.getWatchList());
-        System.out.println("watch list: " +jsonResult.toString());
-        return  jsonResult.toString();
+        JSONObject jsonResult = null;
+        try {
+            jsonResult = new JSONObject(String.valueOf(result));
+        } catch (JSONException ex) {
+            jsonResult = new JSONObject("{'results': []}");
+        }
+
+        return jsonResult.toString();
     }
 
-    @GetMapping("/add/{movieId}")
+    @PostMapping("/add/{movieId}")
     public void addMovieToWatchList(@PathVariable("movieId") String movieId) {
-        System.out.println("movie id: " + movieId + " added");
         watchListMemDao.addMovieToWatchList(movieId);
     }
 
-    @GetMapping("/delete/{movieId}")
+    @PostMapping("/delete/{movieId}")
     public void deleteMovieToWatchList(@PathVariable("movieId") String movieId) {
-        System.out.println("movie id: " + movieId + " deleted");
         watchListMemDao.removeMovieFromWatchList(movieId);
     }
 
