@@ -1,4 +1,4 @@
-package com.codecool.moviedb.controller;
+package com.codecool.moviedb.controller.watched_movies;
 
 import com.codecool.moviedb.dao.WatchedMovieDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ public class DeleteWatchedMovieController {
     WatchedMovieDAO watchedMovieDAO;
 
     @GetMapping
-    public void addWatchedMovie(@PathVariable String id) {
+    public void deleteWatchedMovie(@PathVariable String id) {
         watchedMovieDAO.deleteMovie(id);
         System.out.println(watchedMovieDAO.getAllWatchedMovieIDs());
     }
