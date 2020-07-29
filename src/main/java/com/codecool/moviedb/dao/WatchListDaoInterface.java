@@ -1,4 +1,4 @@
-package com.codecool.moviedb.components.dao;
+package com.codecool.moviedb.dao;
 
 import java.util.List;
 

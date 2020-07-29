@@ -1,13 +1,12 @@
 package com.codecool.moviedb.controller;
 
 import com.codecool.moviedb.components.MovieAPI;
-import com.codecool.moviedb.components.dao.WatchListMemDao;
+import com.codecool.moviedb.dao.WatchListMemDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 

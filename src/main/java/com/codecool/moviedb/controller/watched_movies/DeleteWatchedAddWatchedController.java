@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/add/watched-movie/{id}")
+@RequestMapping("/delete-watched/add-watch/{id}")
 @CrossOrigin("*")
-public class AddWatchedMovieController {
+public class DeleteWatchedAddWatchedController {
 
     @Autowired
     WatchedMovieDAO watchedMovieDAO;
@@ -17,10 +17,11 @@ public class AddWatchedMovieController {
     WatchListMemDao watchListMemDao;
 
     @GetMapping
-    public void addWatchedMovie(@PathVariable String id) {
-
-        watchedMovieDAO.addMovie(id);
-        watchListMemDao.removeMovieFromWatchList(id);
-        System.out.println("watched list: " + watchedMovieDAO.getAllWatchedMovieIDs());
+    public void deleteWatchedAddWatch(@PathVariable String id) {
+        watchedMovieDAO.deleteMovie(id);
+        watchListMemDao.addMovieToWatchList(id);
+        System.out.println(watchedMovieDAO.getAllWatchedMovieIDs());
     }
 }
+
+
