@@ -1,6 +1,7 @@
-package com.codecool.moviedb.controller.liked_movies;
+package com.codecool.moviedb.controller.disliked_movies;
 
 import com.codecool.moviedb.components.GetMovieFromIDAPI;
+import com.codecool.moviedb.dao.DislikedMovieDAO;
 import com.codecool.moviedb.dao.LikedMovieDAO;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,19 +14,19 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/all-liked-movies")
+@RequestMapping("/all-disliked-movies")
 @CrossOrigin("*")
-public class AllLikedMovieController {
+public class AllDislikedMovieController {
 
     @Autowired
-    LikedMovieDAO likedMovieDAO;
+    DislikedMovieDAO dislikedMovieDAO;
 
     @Autowired
     GetMovieFromIDAPI getMovieFromIDAPI;
 
     @GetMapping
-    public String getAllLikedMovie() throws IOException, JSONException {
-        return getMoviesByIDAPICall(likedMovieDAO.getAllWatchedMovieIDs());
+    public String getAllDislikedMovie() throws IOException, JSONException {
+        return getMoviesByIDAPICall(dislikedMovieDAO.getAllWatchedMovieIDs());
     }
 
     public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {
@@ -37,4 +38,3 @@ public class AllLikedMovieController {
         return result.toString();
     }
 }
-

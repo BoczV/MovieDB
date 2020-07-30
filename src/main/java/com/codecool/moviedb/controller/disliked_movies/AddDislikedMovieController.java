@@ -1,4 +1,4 @@
-package com.codecool.moviedb.controller.liked_movies;
+package com.codecool.moviedb.controller.disliked_movies;
 
 import com.codecool.moviedb.dao.DislikedMovieDAO;
 import com.codecool.moviedb.dao.LikedMovieDAO;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/add/liked-movie/{id}")
+@RequestMapping("/add/disliked-movie/{id}")
 @CrossOrigin("*")
-public class AddLikedMovieController {
+public class AddDislikedMovieController {
 
     @Autowired
     LikedMovieDAO likedMovieDAO;
@@ -17,12 +17,11 @@ public class AddLikedMovieController {
     DislikedMovieDAO dislikedMovieDAO;
 
     @GetMapping
-    public void addLikedMovie(@PathVariable String id) {
-        likedMovieDAO.addMovie(id);
-        dislikedMovieDAO.deleteMovie(id);
+    public void addDislikedMovie(@PathVariable String id) {
+        dislikedMovieDAO.addMovie(id);
+        likedMovieDAO.deleteMovie(id);
 
         System.out.println(likedMovieDAO.getAllWatchedMovieIDs());
         System.out.println(dislikedMovieDAO.getAllWatchedMovieIDs());
     }
 }
-
