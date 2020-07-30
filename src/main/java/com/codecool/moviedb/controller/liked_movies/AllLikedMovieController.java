@@ -25,7 +25,7 @@ public class AllLikedMovieController {
 
     @GetMapping
     public String getAllLikedMovie() throws IOException, JSONException {
-        return getMoviesByIDAPICall(likedMovieDAO.getAllWatchedMovieIDs());
+        return getMoviesByIDAPICall(likedMovieDAO.getAllLikedMovies());
     }
 
     public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {

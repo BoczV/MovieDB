@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class SuggestedNotSuggestedAPI {
@@ -16,7 +17,7 @@ public class SuggestedNotSuggestedAPI {
     @Autowired
     private RemoteURLReader remoteURLReader;
 
-    public String getAllSuggestedMovies(List<String> movieList) throws JSONException, IOException {
+    public String getAllSuggestedMovies(Set<String> movieList) throws JSONException, IOException {
         StringBuilder result = new StringBuilder();
         result.append("{ 'results': [");
 

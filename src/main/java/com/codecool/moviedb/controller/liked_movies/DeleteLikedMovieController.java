@@ -15,6 +15,6 @@ public class    DeleteLikedMovieController {
     @GetMapping
     public void deleteWatchedMovie(@PathVariable String id) {
         likedMovieDAO.deleteMovie(id);
-        System.out.println(likedMovieDAO.getAllWatchedMovieIDs());
+        System.out.println(likedMovieDAO.getAllLikedMovies());
     }
 }

@@ -21,8 +21,8 @@ public class AddLikedMovieController {
         likedMovieDAO.addMovie(id);
         dislikedMovieDAO.deleteMovie(id);
 
-        System.out.println(likedMovieDAO.getAllWatchedMovieIDs());
-        System.out.println(dislikedMovieDAO.getAllWatchedMovieIDs());
+        System.out.println(likedMovieDAO.getAllLikedMovies());
+        System.out.println(dislikedMovieDAO.getAllDislikedMovies());
     }
 }
 

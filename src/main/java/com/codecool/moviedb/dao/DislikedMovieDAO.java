@@ -18,7 +18,7 @@ public class DislikedMovieDAO {
         DislikedMovies.remove(id);
     }
 
-    public Set<String> getAllWatchedMovieIDs() {
+    public Set<String> getAllDislikedMovies() {
         return DislikedMovies;
     }
 }
