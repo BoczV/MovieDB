@@ -23,8 +23,14 @@ public class SuggestedNotSuggestedAPI {
 
         for (String movieId : movieList) {
             JSONArray jsonArray = getSuggestedByMovie(movieId);
-            for (int i=0; i <3; i++) {
-                result.append(jsonArray.optJSONObject(i).toString()).append(",");
+            if(jsonArray.length() > 3){
+                for (int i=0; i < 3; i++) {
+                    result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                }
+            } else {
+                for (int i=0; i < jsonArray.length(); i++) {
+                    result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                }
             }
 
         }
