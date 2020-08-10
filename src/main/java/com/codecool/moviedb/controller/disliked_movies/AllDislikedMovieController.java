@@ -2,6 +2,8 @@ package com.codecool.moviedb.controller.disliked_movies;
 
 import com.codecool.moviedb.components.GetMovieFromIDAPI;
 import com.codecool.moviedb.dao.DislikedMovieDAO;
+import com.codecool.moviedb.model.User;
+import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.Set;
 public class AllDislikedMovieController {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     DislikedMovieDAO dislikedMovieDAO;
 
     @Autowired
@@ -25,7 +30,8 @@ public class AllDislikedMovieController {
 
     @GetMapping
     public String getAllDislikedMovie() throws IOException, JSONException {
-        return getMoviesByIDAPICall(dislikedMovieDAO.getAllDislikedMovies());
+        User dummyIsti = userRepository.getOne(1L);
+        return getMoviesByIDAPICall(dummyIsti.getDislikedMovies());
     }
 
     public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {
