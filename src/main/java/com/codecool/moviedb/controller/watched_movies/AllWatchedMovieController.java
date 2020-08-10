@@ -2,6 +2,7 @@ package com.codecool.moviedb.controller.watched_movies;
 
 import com.codecool.moviedb.components.GetMovieFromIDAPI;
 import com.codecool.moviedb.dao.WatchedMovieDAO;
+import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import java.util.Set;
 public class AllWatchedMovieController {
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     public WatchedMovieDAO watchedMovieDAO;
 
     @Autowired
@@ -28,7 +32,8 @@ public class AllWatchedMovieController {
 
     @GetMapping
     public String getAllWatchedMovies() throws IOException, JSONException {
-        return getMoviesByIDAPICall(watchedMovieDAO.getAllWatchedMovieIDs());
+        return getMoviesByIDAPICall((userRepository.getOne(1L).getWatchedMovies()));
+//        return getMoviesByIDAPICall(watchedMovieDAO.getAllWatchedMovieIDs());
     }
 
     public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {

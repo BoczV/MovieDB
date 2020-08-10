@@ -1,8 +1,7 @@
 package com.codecool.moviedb.controller;
 
 import com.codecool.moviedb.components.SuggestedNotSuggestedAPI;
-import com.codecool.moviedb.dao.DislikedMovieDAO;
-import com.codecool.moviedb.dao.LikedMovieDAO;
+import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,32 +10,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/recommendation")
 @CrossOrigin("*")
 public class SuggestedController {
+    
+    @Autowired
+    UserRepository userRepository;
+    
     @Autowired
     SuggestedNotSuggestedAPI suggestedNotSuggestedAPI;
-    @Autowired
-    LikedMovieDAO likedMovieDAO;
-    @Autowired
-    DislikedMovieDAO dislikedMovieDAO;
-
+    
     @GetMapping("/suggested")
     public String getSuggested() throws IOException, JSONException {
-        Set<String> likedMovies = likedMovieDAO.getAllLikedMovies();
-        String res = suggestedNotSuggestedAPI.getAllSuggestedMovies(likedMovies);
-        return res;
+        Set<String> likedMovies = userRepository.getOne(1L).getLikedMovies();
+        return suggestedNotSuggestedAPI.getAllSuggestedMovies(likedMovies);
     }
 
     @GetMapping("/not-suggested")
     public String getNotSuggested() throws IOException, JSONException {
-        Set<String> dislikedMovies = dislikedMovieDAO.getAllDislikedMovies();
-        String res = suggestedNotSuggestedAPI.getAllSuggestedMovies(dislikedMovies);
-        return res;
+        Set<String> dislikedMovies = userRepository.getOne(1L).getDislikedMovies();
+        return suggestedNotSuggestedAPI.getAllSuggestedMovies(dislikedMovies);
     }
 }

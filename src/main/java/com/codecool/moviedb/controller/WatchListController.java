@@ -1,7 +1,6 @@
 package com.codecool.moviedb.controller;
 
 import com.codecool.moviedb.components.MovieAPI;
-import com.codecool.moviedb.dao.WatchListMemDao;
 import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 @RestController

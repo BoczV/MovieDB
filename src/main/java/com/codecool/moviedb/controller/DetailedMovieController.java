@@ -19,7 +19,6 @@ public class DetailedMovieController {
     public String getMovieById(@PathVariable("movieId") String movieId) throws IOException, JSONException {
         String result = movieAPI.getMovieById(movieId);
         JSONObject jsonObject = new JSONObject(result);
-        System.out.println(result);
         return jsonObject.toString();
     }
 }

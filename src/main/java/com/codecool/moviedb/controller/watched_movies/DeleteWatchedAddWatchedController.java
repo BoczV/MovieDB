@@ -1,9 +1,10 @@
 package com.codecool.moviedb.controller.watched_movies;
 
-import com.codecool.moviedb.dao.WatchListMemDao;
-import com.codecool.moviedb.dao.WatchedMovieDAO;
+import com.codecool.moviedb.model.User;
+import com.codecool.moviedb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/delete-watched/add-watch/{id}")
@@ -11,16 +12,14 @@ import org.springframework.web.bind.annotation.*;
 public class DeleteWatchedAddWatchedController {
 
     @Autowired
-    WatchedMovieDAO watchedMovieDAO;
-
-    @Autowired
-    WatchListMemDao watchListMemDao;
+    UserRepository userRepository;
 
     @GetMapping
     public void deleteWatchedAddWatch(@PathVariable String id) {
-        watchedMovieDAO.deleteMovie(id);
-        watchListMemDao.addMovieToWatchList(id);
-        System.out.println(watchedMovieDAO.getAllWatchedMovieIDs());
+        User dummyIsti = userRepository.getOne(1L);
+        dummyIsti.getWatchedMovies().remove(id);
+        dummyIsti.getWatchMovies().add(id);
+        userRepository.save(dummyIsti);
     }
 }
 
