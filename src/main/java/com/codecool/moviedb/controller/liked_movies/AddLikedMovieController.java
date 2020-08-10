@@ -2,6 +2,8 @@ package com.codecool.moviedb.controller.liked_movies;
 
 import com.codecool.moviedb.dao.DislikedMovieDAO;
 import com.codecool.moviedb.dao.LikedMovieDAO;
+import com.codecool.moviedb.model.User;
+import com.codecool.moviedb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +13,15 @@ import org.springframework.web.bind.annotation.*;
 public class AddLikedMovieController {
 
     @Autowired
-    LikedMovieDAO likedMovieDAO;
-
-    @Autowired
-    DislikedMovieDAO dislikedMovieDAO;
+    UserRepository userRepository;
 
     @GetMapping
     public void addLikedMovie(@PathVariable String id) {
-        likedMovieDAO.addMovie(id);
-        dislikedMovieDAO.deleteMovie(id);
+        User dummyIsti = userRepository.getOne(1L);
+        dummyIsti.getLikedMovies().add(id);
+        dummyIsti.getDislikedMovies().remove(id);
+        userRepository.save(dummyIsti);
 
-        System.out.println(likedMovieDAO.getAllLikedMovies());
-        System.out.println(dislikedMovieDAO.getAllDislikedMovies());
     }
 }
 
