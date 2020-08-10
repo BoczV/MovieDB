@@ -2,6 +2,8 @@ package com.codecool.moviedb.controller;
 
 import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.dao.WatchListMemDao;
+import com.codecool.moviedb.model.User;
+import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +11,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/watchlist")
 @CrossOrigin("*")
 public class WatchListController {
-    @Autowired
-    WatchListMemDao watchListMemDao;
+
     @Autowired
     MovieAPI movieAPI;
 
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping
     public String getWatchList() throws IOException, JSONException {
-        List<String> watchListIds = watchListMemDao.getWatchList();
+        User dummyIsti = userRepository.getOne(1L);
+        Set<String> watchMovies = dummyIsti.getWatchMovies();
+
         StringBuilder result = new StringBuilder();
         result.append("{ 'results': [");
-        for (String movieId : watchListIds) {
+        for (String movieId : watchMovies) {
             result.append(movieAPI.getMovieById(movieId)).append(",");
         }
         result.deleteCharAt(result.length() - 1);
@@ -41,12 +48,16 @@ public class WatchListController {
 
     @PostMapping("/add/{movieId}")
     public void addMovieToWatchList(@PathVariable("movieId") String movieId) {
-        watchListMemDao.addMovieToWatchList(movieId);
+        User dummyIsti = userRepository.getOne(1L);
+        dummyIsti.getWatchMovies().add(movieId);
+        userRepository.save(dummyIsti);
     }
 
     @PostMapping("/delete/{movieId}")
     public void deleteMovieToWatchList(@PathVariable("movieId") String movieId) {
-        watchListMemDao.removeMovieFromWatchList(movieId);
+        User dummyIsti = userRepository.getOne(1L);
+        dummyIsti.getWatchMovies().remove(movieId);
+        userRepository.save(dummyIsti);
     }
 
 }

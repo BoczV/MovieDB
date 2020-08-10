@@ -19,17 +19,14 @@ public class MoviedbApplication {
         SpringApplication.run(MoviedbApplication.class, args);
     }
 
-    /*@Bean
+    @Bean
     @Profile("production")
     public CommandLineRunner init(){
         return args -> {
-            User user = User.builder().userName("Isti").password("ugyi").likedMovie(4L).dislikedMovie(3L).watchedMovie(5L).watchMovie(6L).build();
+            User user = User.builder().userName("Isti").password("ugyi").build();
             userRepository.save(user);
-
-            User user1 = User.builder().userName("Zsuzsi").password("dog").likedMovie(19L).dislikedMovie(18L).watchedMovie(15L).watchMovie(16L).build();
-            userRepository.save(user1);
         };
 
-    }*/
+    }
 
 }

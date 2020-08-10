@@ -24,18 +24,18 @@ public class User {
 
     @Singular
     @ElementCollection
-    private Set<Long> likedMovies;
+    private Set<String> likedMovies;
 
     @Singular
     @ElementCollection
-    private Set<Long> dislikedMovies;
+    private Set<String> dislikedMovies;
 
     @Singular
     @ElementCollection
-    private Set<Long> watchedMovies;
+    private Set<String> watchedMovies;
 
     @Singular
     @ElementCollection
-    private Set<Long> watchMovies;
+    private Set<String> watchMovies;
 
 }
