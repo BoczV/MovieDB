@@ -15,9 +15,9 @@ public class DetailedMovieController {
     @Autowired
     MovieAPI movieAPI;
 
-    @GetMapping("/{movieId}")
-    public String getMovieById(@PathVariable("movieId") String movieId) throws IOException, JSONException {
-        String result = movieAPI.getMovieById(movieId);
+    @GetMapping("/{movieId}/{language}")
+    public String getMovieById(@PathVariable("movieId") String movieId, @PathVariable("language") String language) throws IOException, JSONException {
+        String result = movieAPI.getMovieByIdByLanguage(movieId, language);
         JSONObject jsonObject = new JSONObject(result);
         return jsonObject.toString();
     }

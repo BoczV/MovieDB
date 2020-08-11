@@ -50,13 +50,19 @@ public class MovieAPI {
     }
 
     public String getMovieById(String movieId) throws IOException {
-        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&append_to_response=credits";
-
+        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&" +
+                "append_to_response=credits";
         return remoteURLReader.readFromUrl(path);
     }
 
-    public JSONObject getLatestMovies() throws IOException, JSONException {
-        String result = remoteURLReader.readFromUrl(apiPathLatest);
+    public String getMovieByIdByLanguage(String movieId, String language) throws IOException {
+        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&" +
+                "append_to_response=credits&language=" + language;
+        return remoteURLReader.readFromUrl(path);
+    }
+
+    public JSONObject getLatestMovies(String language) throws IOException, JSONException {
+        String result = remoteURLReader.readFromUrl(apiPathLatest + "&language=" + language);
         JSONObject json = new JSONObject(result);
         return json;
     }

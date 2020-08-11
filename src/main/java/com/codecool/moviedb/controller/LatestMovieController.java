@@ -3,10 +3,8 @@ package com.codecool.moviedb.controller;
 import com.codecool.moviedb.components.MovieAPI;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -18,8 +16,8 @@ public class LatestMovieController {
     @Autowired
     MovieAPI movieAPI;
 
-    @GetMapping
-    public String getLatestMovies() throws IOException, JSONException {
-        return movieAPI.getLatestMovies().toString();
+    @GetMapping("/{language}")
+    public String getLatestMovies(@PathVariable("language") String language) throws IOException, JSONException {
+        return movieAPI.getLatestMovies(language).toString();
     }
 }
