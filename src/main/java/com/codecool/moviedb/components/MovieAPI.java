@@ -109,4 +109,12 @@ public class MovieAPI {
         JSONObject jsonResult = new JSONObject(result);
         return jsonResult.optJSONArray("results");
     }
+
+
+    public String getTrailersById(String movieId) throws IOException, JSONException {
+        String url = "https://api.themoviedb.org/3/movie/" + movieId + "/videos?api_key=ba3cb62d3d36c1bebfdd12b5074399f5";
+        String result = remoteURLReader.readFromUrl(url);
+        JSONObject jsonObject = new JSONObject(result);
+        return jsonObject.toString();
+    }
 }
