@@ -4,10 +4,7 @@ import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,15 +22,15 @@ public class AllWatchedMovieController {
     @Autowired
     MovieAPI movieAPI;
 
-    @GetMapping
-    public String getAllWatchedMovies() throws IOException, JSONException {
-        return getMoviesByIDAPICall((userRepository.getOne(1L).getWatchedMovies()));
+    @GetMapping("/{language}")
+    public String getAllWatchedMovies(@PathVariable("language") String language) throws IOException, JSONException {
+        return getMoviesByIDAPICall((userRepository.getOne(1L).getWatchedMovies()), language);
     }
 
-    public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {
+    public String getMoviesByIDAPICall(Set<String> ids, String language) throws IOException, JSONException {
         List<String> result = new ArrayList<>();
         for (String id : ids){
-            result.add(movieAPI.getMovieById(id));
+            result.add(movieAPI.getMovieByIdByLanguage(id, language));
         }
         return result.toString();
     }

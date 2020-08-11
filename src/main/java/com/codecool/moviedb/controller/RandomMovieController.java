@@ -4,10 +4,7 @@ import com.codecool.moviedb.components.MovieAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -18,9 +15,9 @@ public class RandomMovieController {
     @Autowired
     MovieAPI movieAPI;
 
-    @GetMapping
-    public String getRandomMovie() throws IOException, JSONException {
-        JSONObject response = movieAPI.getRandomMovie();
+    @GetMapping("/{language}")
+    public String getRandomMovie(@PathVariable("language") String language) throws IOException, JSONException {
+        JSONObject response = movieAPI.getRandomMovie(language);
         return response.toString();
     }
 }

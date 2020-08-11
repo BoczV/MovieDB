@@ -20,18 +20,17 @@ public class AllLikedMovieController {
     UserRepository userRepository;
 
     @Autowired
-    /*GetMovieFromIDAPI getMovieFromIDAPI;*/
     MovieAPI movieAPI;
 
-    @GetMapping
-    public String getAllLikedMovie() throws IOException, JSONException {
-        return getMoviesByIDAPICall(userRepository.getOne(1L).getLikedMovies());
+    @GetMapping("/{language}")
+    public String getAllLikedMovie(@PathVariable("language") String language) throws IOException, JSONException {
+        return getMoviesByIDAPICall(userRepository.getOne(1L).getLikedMovies(), language);
     }
 
-    public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {
+    public String getMoviesByIDAPICall(Set<String> ids, String language) throws IOException, JSONException {
         List<String> result = new ArrayList<>();
         for (String id : ids){
-            result.add(movieAPI.getMovieById(id));
+            result.add(movieAPI.getMovieByIdByLanguage(id, language));
         }
         return result.toString();
     }

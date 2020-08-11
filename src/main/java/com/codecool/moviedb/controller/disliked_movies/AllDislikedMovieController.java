@@ -23,16 +23,16 @@ public class AllDislikedMovieController {
     @Autowired
     MovieAPI movieAPI;
 
-    @GetMapping
-    public String getAllDislikedMovie() throws IOException, JSONException {
+    @GetMapping("/{language}")
+    public String getAllDislikedMovie(@PathVariable("language") String language) throws IOException, JSONException {
         User dummyIsti = userRepository.getOne(1L);
-        return getMoviesByIDAPICall(dummyIsti.getDislikedMovies());
+        return getMoviesByIDAPICall(dummyIsti.getDislikedMovies(), language);
     }
 
-    public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {
+    public String getMoviesByIDAPICall(Set<String> ids, String language) throws IOException, JSONException {
         List<String> result = new ArrayList<>();
         for (String id : ids){
-            result.add(movieAPI.getMovieById(id));
+            result.add(movieAPI.getMovieByIdByLanguage(id, language));
         }
         return result.toString();
     }

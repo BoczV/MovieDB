@@ -22,15 +22,15 @@ public class WatchListController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping
-    public String getWatchList() throws IOException, JSONException {
+    @GetMapping("/{language}")
+    public String getWatchList(@PathVariable("language") String language) throws IOException, JSONException {
         User dummyIsti = userRepository.getOne(1L);
         Set<String> watchMovies = dummyIsti.getWatchMovies();
 
         StringBuilder result = new StringBuilder();
         result.append("{ 'results': [");
         for (String movieId : watchMovies) {
-            result.append(movieAPI.getMovieById(movieId)).append(",");
+            result.append(movieAPI.getMovieByIdByLanguage(movieId, language)).append(",");
         }
         result.deleteCharAt(result.length() - 1);
         result.append("] }");

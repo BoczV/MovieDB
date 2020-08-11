@@ -4,10 +4,7 @@ import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Set;
@@ -23,15 +20,15 @@ public class SuggestedController {
     @Autowired
     MovieAPI movieAPI;
     
-    @GetMapping("/suggested")
-    public String getSuggested() throws IOException, JSONException {
+    @GetMapping("/suggested/{language}")
+    public String getSuggested(@PathVariable("language") String language) throws IOException, JSONException {
         Set<String> likedMovies = userRepository.getOne(1L).getLikedMovies();
-        return movieAPI.getAllSuggestedMovies(likedMovies);
+        return movieAPI.getAllSuggestedMovies(likedMovies, language);
     }
 
-    @GetMapping("/not-suggested")
-    public String getNotSuggested() throws IOException, JSONException {
+    @GetMapping("/not-suggested/{language}")
+    public String getNotSuggested(@PathVariable("language") String language) throws IOException, JSONException {
         Set<String> dislikedMovies = userRepository.getOne(1L).getDislikedMovies();
-        return movieAPI.getAllSuggestedMovies(dislikedMovies);
+        return movieAPI.getAllSuggestedMovies(dislikedMovies, language);
     }
 }

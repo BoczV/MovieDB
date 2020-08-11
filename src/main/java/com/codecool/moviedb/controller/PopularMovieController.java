@@ -3,10 +3,7 @@ package com.codecool.moviedb.controller;
 import com.codecool.moviedb.components.MovieAPI;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -18,10 +15,10 @@ public class PopularMovieController {
     @Autowired
     MovieAPI movieAPI;
 
-    @GetMapping
-    public String getPopularMovies() throws IOException, JSONException {
+    @GetMapping("/{language}")
+    public String getPopularMovies(@PathVariable("language") String language) throws IOException, JSONException {
 
-        return movieAPI.getPopularMovies().toString();
+        return movieAPI.getPopularMovies(language).toString();
     }
 
 }

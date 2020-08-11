@@ -16,9 +16,9 @@ public class SearchController {
     @Autowired
     private MovieAPI movieAPI;
 
-    @GetMapping("/{searchString}")
-    public String searchResults(@PathVariable("searchString") String searchString) throws IOException, JSONException {
-        JSONObject result = movieAPI.searchResults(searchString);
+    @GetMapping("/{searchString}/{language}")
+    public String searchResults(@PathVariable("searchString") String searchString, @PathVariable("language") String language) throws IOException, JSONException {
+        JSONObject result = movieAPI.searchResults(searchString, language);
         return result.toString();
     }
 
