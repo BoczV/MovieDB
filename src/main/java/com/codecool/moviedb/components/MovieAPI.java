@@ -1,5 +1,6 @@
 package com.codecool.moviedb.components;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -7,23 +8,18 @@ import org.springframework.stereotype.Component;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Set;
 
 @Component
 public class MovieAPI {
 
 
     private RemoteURLReader remoteURLReader;
-    private final String apiPath = "https://api.themoviedb.org/3/movie/upcoming?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en-US&page=1";
+    private final String apiPathLatest = "https://api.themoviedb.org/3/movie/upcoming?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en-US&page=1";
+    private final String apiPathPopular = "https://api.themoviedb.org/3/discover/movie?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en&sort_by=popularity.desc";
 
     public MovieAPI(RemoteURLReader remoteURLReader) {
         this.remoteURLReader = remoteURLReader;
-    }
-
-
-    public JSONObject getLatestMovies() throws IOException, JSONException {
-        String result = remoteURLReader.readFromUrl(apiPath);
-        JSONObject json = new JSONObject(result);
-        return json;
     }
 
     public JSONObject searchResults(String searchString) throws JSONException, IOException {
@@ -54,8 +50,57 @@ public class MovieAPI {
     }
 
     public String getMovieById(String movieId) throws IOException {
-        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5";
+        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&append_to_response=credits";
 
         return remoteURLReader.readFromUrl(path);
+    }
+
+    public JSONObject getLatestMovies() throws IOException, JSONException {
+        String result = remoteURLReader.readFromUrl(apiPathLatest);
+        JSONObject json = new JSONObject(result);
+        return json;
+    }
+
+    public JSONObject getPopularMovies() throws JSONException, IOException {
+        String result = remoteURLReader.readFromUrl(apiPathPopular);
+        JSONObject json = new JSONObject(result);
+        return json;
+    }
+
+    public String getAllSuggestedMovies(Set<String> movieList) throws JSONException, IOException {
+        StringBuilder result = new StringBuilder();
+        result.append("{ 'results': [");
+
+        for (String movieId : movieList) {
+            JSONArray jsonArray = getSuggestedByMovie(movieId);
+            if(jsonArray.length() > 3){
+                for (int i=0; i < 3; i++) {
+                    result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                }
+            } else {
+                for (int i=0; i < jsonArray.length(); i++) {
+                    result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                }
+            }
+
+        }
+        result.deleteCharAt(result.length() - 1);
+        result.append("] }");
+
+        JSONObject jsonResult = null;
+        try {
+            jsonResult = new JSONObject(String.valueOf(result));
+        } catch (JSONException ex) {
+            jsonResult = new JSONObject("{'results': []}");
+        }
+
+        return  jsonResult.toString();
+    }
+
+    public JSONArray getSuggestedByMovie(String movieId) throws JSONException, IOException {
+        String url = "https://api.themoviedb.org/3/movie/" + movieId + "/recommendations?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en-US&page=1";
+        String result = remoteURLReader.readFromUrl(url);
+        JSONObject jsonResult = new JSONObject(result);
+        return jsonResult.optJSONArray("results");
     }
 }

@@ -1,6 +1,6 @@
 package com.codecool.moviedb.controller;
 
-import com.codecool.moviedb.components.HomepageMovieAPI;
+import com.codecool.moviedb.components.MovieAPI;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,12 +16,12 @@ import java.io.IOException;
 public class PopularMovieController {
 
     @Autowired
-    public HomepageMovieAPI homepageMovieAPI;
+    MovieAPI movieAPI;
 
     @GetMapping
     public String getPopularMovies() throws IOException, JSONException {
 
-        return homepageMovieAPI.getPopularMovies().toString();
+        return movieAPI.getPopularMovies().toString();
     }
 
 }

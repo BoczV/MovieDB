@@ -1,10 +1,8 @@
 package com.codecool.moviedb.controller.liked_movies;
 
-import com.codecool.moviedb.components.GetMovieFromIDAPI;
-import com.codecool.moviedb.dao.LikedMovieDAO;
+import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +20,8 @@ public class AllLikedMovieController {
     UserRepository userRepository;
 
     @Autowired
-    GetMovieFromIDAPI getMovieFromIDAPI;
+    /*GetMovieFromIDAPI getMovieFromIDAPI;*/
+    MovieAPI movieAPI;
 
     @GetMapping
     public String getAllLikedMovie() throws IOException, JSONException {
@@ -30,9 +29,9 @@ public class AllLikedMovieController {
     }
 
     public String getMoviesByIDAPICall(Set<String> ids) throws IOException, JSONException {
-        List<JSONObject> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         for (String id : ids){
-            result.add(getMovieFromIDAPI.getMovieFromID(id));
+            result.add(movieAPI.getMovieById(id));
         }
         return result.toString();
     }

@@ -1,6 +1,6 @@
 package com.codecool.moviedb.controller;
 
-import com.codecool.moviedb.components.HomepageMovieAPI;
+import com.codecool.moviedb.components.MovieAPI;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,10 +16,10 @@ import java.io.IOException;
 public class LatestMovieController {
 
     @Autowired
-    public HomepageMovieAPI homepageMovieAPI;
+    MovieAPI movieAPI;
 
     @GetMapping
     public String getLatestMovies() throws IOException, JSONException {
-        return homepageMovieAPI.getLatestMovies().toString();
+        return movieAPI.getLatestMovies().toString();
     }
 }

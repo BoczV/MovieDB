@@ -1,13 +1,9 @@
 package com.codecool.moviedb.controller.disliked_movies;
 
-import com.codecool.moviedb.dao.DislikedMovieDAO;
-import com.codecool.moviedb.dao.LikedMovieDAO;
 import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/add/disliked-movie/{id}")

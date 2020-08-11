@@ -1,6 +1,6 @@
 package com.codecool.moviedb.controller;
 
-import com.codecool.moviedb.components.SuggestedNotSuggestedAPI;
+import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,17 @@ public class SuggestedController {
     UserRepository userRepository;
     
     @Autowired
-    SuggestedNotSuggestedAPI suggestedNotSuggestedAPI;
+    MovieAPI movieAPI;
     
     @GetMapping("/suggested")
     public String getSuggested() throws IOException, JSONException {
         Set<String> likedMovies = userRepository.getOne(1L).getLikedMovies();
-        return suggestedNotSuggestedAPI.getAllSuggestedMovies(likedMovies);
+        return movieAPI.getAllSuggestedMovies(likedMovies);
     }
 
     @GetMapping("/not-suggested")
     public String getNotSuggested() throws IOException, JSONException {
         Set<String> dislikedMovies = userRepository.getOne(1L).getDislikedMovies();
-        return suggestedNotSuggestedAPI.getAllSuggestedMovies(dislikedMovies);
+        return movieAPI.getAllSuggestedMovies(dislikedMovies);
     }
 }
