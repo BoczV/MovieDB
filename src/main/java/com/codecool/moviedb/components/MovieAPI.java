@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -74,21 +75,25 @@ public class MovieAPI {
     }
 
     public String getAllSuggestedMovies(Set<String> movieList, String language) throws JSONException, IOException {
+        Set<String> movieIds = new HashSet<>();
         StringBuilder result = new StringBuilder();
         result.append("{ 'results': [");
 
         for (String movieId : movieList) {
             JSONArray jsonArray = getSuggestedByMovie(movieId, language);
-            if(jsonArray.length() > 3){
-                for (int i=0; i < 3; i++) {
-                    result.append(jsonArray.optJSONObject(i).toString()).append(",");
+            if (jsonArray.length() > 3) {
+                for (int i = 0; i < 3; i++) {
+                    if (movieIds.add(jsonArray.optJSONObject(i).get("id").toString())) {
+                        result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                    }
                 }
             } else {
-                for (int i=0; i < jsonArray.length(); i++) {
-                    result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    if (movieIds.add(jsonArray.optJSONObject(i).get("id").toString())) {
+                        result.append(jsonArray.optJSONObject(i).toString()).append(",");
+                    }
                 }
             }
-
         }
         result.deleteCharAt(result.length() - 1);
         result.append("] }");
@@ -100,7 +105,7 @@ public class MovieAPI {
             jsonResult = new JSONObject("{'results': []}");
         }
 
-        return  jsonResult.toString();
+        return jsonResult.toString();
     }
 
     public JSONArray getSuggestedByMovie(String movieId, String language) throws JSONException, IOException {
