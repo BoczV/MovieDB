@@ -16,13 +16,9 @@ public class PostRequestSender {
 
     public void sendPostRequest(URL url, String rating) throws IOException, JSONException {
         HttpURLConnection con = initConnection(url);
-
         String jsonInputString = initJSONBodyWithOneAttribute("value", rating);
-
         sendRequest(con, jsonInputString);
-
         printRequestResponse(con);
-
     }
 
     private void sendRequest(HttpURLConnection con, String jsonInputString) throws IOException {

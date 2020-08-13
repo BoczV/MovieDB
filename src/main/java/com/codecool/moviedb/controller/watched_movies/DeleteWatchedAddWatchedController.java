@@ -5,7 +5,6 @@ import com.codecool.moviedb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/delete-watched/add-watch/{id}")
 @CrossOrigin("*")
@@ -22,5 +21,3 @@ public class DeleteWatchedAddWatchedController {
         userRepository.save(dummyIsti);
     }
 }
-
-

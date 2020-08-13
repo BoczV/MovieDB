@@ -1,6 +1,5 @@
 package com.codecool.moviedb.controller.watched_movies;
 
-
 import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

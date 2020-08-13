@@ -2,7 +2,6 @@ package com.codecool.moviedb.controller.liked_movies;
 
 import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.repository.UserRepository;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +22,11 @@ public class AllLikedMovieController {
     MovieAPI movieAPI;
 
     @GetMapping("/{language}")
-    public String getAllLikedMovie(@PathVariable("language") String language) throws IOException, JSONException {
+    public String getAllLikedMovie(@PathVariable("language") String language) throws IOException {
         return getMoviesByIDAPICall(userRepository.getOne(1L).getLikedMovies(), language);
     }
 
-    public String getMoviesByIDAPICall(Set<String> ids, String language) throws IOException, JSONException {
+    public String getMoviesByIDAPICall(Set<String> ids, String language) throws IOException {
         List<String> result = new ArrayList<>();
         for (String id : ids){
             result.add(movieAPI.getMovieByIdByLanguage(id, language));
@@ -35,4 +34,3 @@ public class AllLikedMovieController {
         return result.toString();
     }
 }
-

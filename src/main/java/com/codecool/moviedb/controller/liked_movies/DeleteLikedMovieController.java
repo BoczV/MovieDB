@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/delete/liked-movie/{id}")
 @CrossOrigin("*")
-public class    DeleteLikedMovieController {
+public class DeleteLikedMovieController {
 
     @Autowired
     UserRepository userRepository;

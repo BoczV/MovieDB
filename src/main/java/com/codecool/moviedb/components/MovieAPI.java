@@ -14,18 +14,33 @@ import java.util.Set;
 @Component
 public class MovieAPI {
 
-
+    private APIDataProvider apiDataProvider;
     private RemoteURLReader remoteURLReader;
-    private final String apiPathLatest = "https://api.themoviedb.org/3/movie/upcoming?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en-US&page=1";
-    private final String apiPathPopular = "https://api.themoviedb.org/3/discover/movie?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en&sort_by=popularity.desc";
+    private String apiKey;
+    private String guestSession;
+    private final String apiPathLatest;
+    private final String apiPathPopular;
 
-    public MovieAPI(RemoteURLReader remoteURLReader) {
+    public MovieAPI(RemoteURLReader remoteURLReader, APIDataProvider apiDataProvider) {
+        this.apiDataProvider = apiDataProvider;
         this.remoteURLReader = remoteURLReader;
+        setApiKey();
+        setGuestSession();
+        apiPathLatest = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + apiKey + "&language=en-US&page=1";
+        apiPathPopular = "https://api.themoviedb.org/3/discover/movie?api_key=" + apiKey + "&language=en&sort_by=popularity.desc";
+    }
+    
+    private void setApiKey(){
+        apiKey = apiDataProvider.getPreciseKey(KeyType.API_KEY);
+    }
+    
+    private void setGuestSession(){
+        guestSession = apiDataProvider.getPreciseKey(KeyType.GUEST_SESSION);
     }
 
     public JSONObject searchResults(String searchString, String language) throws JSONException, IOException {
         searchString = searchString.replaceAll(" ", "+");
-        String queryPath = "https://api.themoviedb.org/3/search/movie?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&query="
+        String queryPath = "https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&query="
                 + searchString + "&language=" + language;
         String result = remoteURLReader.readFromUrl(queryPath);
         return new JSONObject(result);
@@ -41,7 +56,7 @@ public class MovieAPI {
         try {
             Random random = new Random();
             int randomId = 1 + random.nextInt(990);
-            String path = "https://api.themoviedb.org/3/movie/" + randomId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=" + language;
+            String path = "https://api.themoviedb.org/3/movie/" + randomId + "?api_key=" + apiKey + "&language=" + language;
             result = remoteURLReader.readFromUrl(path);
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
@@ -51,13 +66,13 @@ public class MovieAPI {
     }
 
     public String getMovieById(String movieId) throws IOException {
-        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&" +
+        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey + "&" +
                 "append_to_response=credits";
         return remoteURLReader.readFromUrl(path);
     }
 
     public String getMovieByIdByLanguage(String movieId, String language) throws IOException {
-        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&" +
+        String path = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey + "&" +
                 "append_to_response=credits&language=" + language;
         return remoteURLReader.readFromUrl(path);
     }
@@ -74,42 +89,8 @@ public class MovieAPI {
         return json;
     }
 
-    public String getAllSuggestedMovies(Set<String> movieList, String language) throws JSONException, IOException {
-        Set<String> movieIds = new HashSet<>();
-        StringBuilder result = new StringBuilder();
-        result.append("{ 'results': [");
-
-        for (String movieId : movieList) {
-            JSONArray jsonArray = getSuggestedByMovie(movieId, language);
-            if (jsonArray.length() > 3) {
-                for (int i = 0; i < 3; i++) {
-                    if (movieIds.add(jsonArray.optJSONObject(i).get("id").toString())) {
-                        result.append(jsonArray.optJSONObject(i).toString()).append(",");
-                    }
-                }
-            } else {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    if (movieIds.add(jsonArray.optJSONObject(i).get("id").toString())) {
-                        result.append(jsonArray.optJSONObject(i).toString()).append(",");
-                    }
-                }
-            }
-        }
-        result.deleteCharAt(result.length() - 1);
-        result.append("] }");
-
-        JSONObject jsonResult = null;
-        try {
-            jsonResult = new JSONObject(String.valueOf(result));
-        } catch (JSONException ex) {
-            jsonResult = new JSONObject("{'results': []}");
-        }
-
-        return jsonResult.toString();
-    }
-
     public JSONArray getSuggestedByMovie(String movieId, String language) throws JSONException, IOException {
-        String url = "https://api.themoviedb.org/3/movie/" + movieId + "/recommendations?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language=en-US&page=1&language=" + language;
+        String url = "https://api.themoviedb.org/3/movie/" + movieId + "/recommendations?api_key=" + apiKey +"&language=en-US&page=1&language=" + language;
         String result = remoteURLReader.readFromUrl(url);
         JSONObject jsonResult = new JSONObject(result);
         return jsonResult.optJSONArray("results");
@@ -117,18 +98,61 @@ public class MovieAPI {
 
 
     public String getTrailersById(String movieId) throws IOException, JSONException {
-        String url = "https://api.themoviedb.org/3/movie/" + movieId + "/videos?api_key=ba3cb62d3d36c1bebfdd12b5074399f5";
+        String url = "https://api.themoviedb.org/3/movie/" + movieId + "/videos?api_key=" + apiKey;
         String result = remoteURLReader.readFromUrl(url);
         JSONObject jsonObject = new JSONObject(result);
         return jsonObject.toString();
     }
 
     public String getMoviesByGenre(String genreId, String page, String language) throws IOException, JSONException {
-        String url = "https://api.themoviedb.org/3/discover/movie?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language= "
+        String url = "https://api.themoviedb.org/3/discover/movie?api_key=" + apiKey + "&language= "
                 + language + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=" + page + "&with_genres="
                 + genreId;
         String result = remoteURLReader.readFromUrl(url);
         JSONObject jsonObject = new JSONObject(result);
         return jsonObject.toString();
+    }
+
+
+    public String getAllSuggestedMovies(Set<String> movieList, String language) throws JSONException, IOException {
+        String result = requestBodyBuilder(movieList, language);
+        return returnJsonObject(result).toString();
+    }
+
+    private JSONObject returnJsonObject(String result) throws JSONException {
+        JSONObject jsonResult = null;
+        try {
+            jsonResult = new JSONObject(result);
+        } catch (JSONException ex) {
+            jsonResult = new JSONObject("{'results': []}");
+        }
+        return jsonResult;
+    }
+
+    private void iterateAndValidateJsonElement(JSONArray jsonArray, Set<String> movieIds, StringBuilder result, int numberOfElements) throws JSONException {
+        for (int i = 0; i < numberOfElements; i++) {
+            if (movieIds.add(jsonArray.optJSONObject(i).get("id").toString())) {
+                result.append(jsonArray.optJSONObject(i).toString()).append(",");
+            }
+        }
+    }
+
+    private String requestBodyBuilder(Set<String> movieList, String language) throws IOException, JSONException {
+        StringBuilder result = new StringBuilder();
+        Set<String> movieIds = new HashSet<>();
+        result.append("{ 'results': [");
+        int maxSuggestionOfAMovie = 3;
+
+        for (String movieId : movieList) {
+            JSONArray jsonArray = getSuggestedByMovie(movieId, language);
+            if (jsonArray.length() > maxSuggestionOfAMovie) {
+                iterateAndValidateJsonElement(jsonArray, movieIds, result, maxSuggestionOfAMovie);
+            } else {
+                iterateAndValidateJsonElement(jsonArray, movieIds, result, jsonArray.length());
+            }
+        }
+        result.deleteCharAt(result.length() - 1);
+        result.append("] }");
+        return String.valueOf(result);
     }
 }

@@ -19,5 +19,4 @@ public class MovieURLController {
     public String getMovieURL(@PathVariable("movieId") String movieId) throws IOException, JSONException {
         return movieAPI.getTrailersById(movieId);
     }
-
 }

@@ -21,7 +21,4 @@ public class SearchController {
         JSONObject result = movieAPI.searchResults(searchString, language);
         return result.toString();
     }
-
-
-
 }

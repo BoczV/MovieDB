@@ -17,8 +17,6 @@ public class PopularMovieController {
 
     @GetMapping("/{language}")
     public String getPopularMovies(@PathVariable("language") String language) throws IOException, JSONException {
-
         return movieAPI.getPopularMovies(language).toString();
     }
-
 }

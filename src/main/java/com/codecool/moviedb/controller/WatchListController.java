@@ -57,5 +57,4 @@ public class WatchListController {
         dummyIsti.getWatchMovies().remove(movieId);
         userRepository.save(dummyIsti);
     }
-
 }

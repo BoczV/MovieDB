@@ -3,7 +3,6 @@ package com.codecool.moviedb.controller;
 import com.codecool.moviedb.components.MovieAPI;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;

@@ -19,7 +19,5 @@ public class AddLikedMovieController {
         dummyIsti.getLikedMovies().add(id);
         dummyIsti.getDislikedMovies().remove(id);
         userRepository.save(dummyIsti);
-
     }
 }
-

@@ -15,11 +15,9 @@ public class GenreController {
     @Autowired
     MovieAPI movieAPI;
 
-    //a page number kimaradt a queryből!
     @GetMapping("/{genreId}/{page}/{language}")
     public String getMoviesByGenre(@PathVariable("genreId") String genreId, @PathVariable("page") String page, @PathVariable("language") String language) throws IOException, JSONException {
         String result = movieAPI.getMoviesByGenre(genreId, page, language);
-        System.out.println(result);
         return result;
     }
 }

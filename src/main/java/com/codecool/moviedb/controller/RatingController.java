@@ -1,6 +1,7 @@
 package com.codecool.moviedb.controller;
 
-import com.codecool.moviedb.components.MovieAPI;
+import com.codecool.moviedb.components.APIDataProvider;
+import com.codecool.moviedb.components.KeyType;
 import com.codecool.moviedb.components.PostRequestSender;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +15,25 @@ import java.net.URL;
 @CrossOrigin("*")
 public class RatingController {
 
-    private String partOfPath = "https://api.themoviedb.org/3/movie/";
-    private String apiKey = "/rating?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&";
-    private String guestSessionId = "guest_session_id=ed2701347d9d0a01d5df934ce8233be7";
-
     @Autowired
     PostRequestSender postRequestSender;
+
+    @Autowired
+    APIDataProvider apiDataProvider;
+
+    private String partOfPath = "https://api.themoviedb.org/3/movie/";
+    private String apiKey = "/rating?api_key=";
+    private String guestSessionId = "guest_session_id=";
 
     @PostMapping
     public void postRating(
             @PathVariable("id") String movieId, @PathVariable("rating") String rating)
             throws IOException, JSONException {
+        apiKey += apiDataProvider.getPreciseKey(KeyType.API_KEY) + "&";
+        guestSessionId += apiDataProvider.getPreciseKey(KeyType.GUEST_SESSION);
+
         String path = partOfPath + movieId + apiKey + guestSessionId;
         URL url = new URL (path);
         postRequestSender.sendPostRequest(url, rating);
     }
-
-
 }
-
