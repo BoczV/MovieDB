@@ -122,4 +122,13 @@ public class MovieAPI {
         JSONObject jsonObject = new JSONObject(result);
         return jsonObject.toString();
     }
+
+    public String getMoviesByGenre(String genreId, String page, String language) throws IOException, JSONException {
+        String url = "https://api.themoviedb.org/3/discover/movie?api_key=ba3cb62d3d36c1bebfdd12b5074399f5&language= "
+                + language + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=" + page + "&with_genres="
+                + genreId;
+        String result = remoteURLReader.readFromUrl(url);
+        JSONObject jsonObject = new JSONObject(result);
+        return jsonObject.toString();
+    }
 }
