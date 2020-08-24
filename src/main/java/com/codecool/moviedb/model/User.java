@@ -3,6 +3,8 @@ package com.codecool.moviedb.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -38,4 +40,8 @@ public class User {
     @ElementCollection
     private Set<String> watchMovies;
 
+    // roles of the user (ADMIN, USER,..)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 }
