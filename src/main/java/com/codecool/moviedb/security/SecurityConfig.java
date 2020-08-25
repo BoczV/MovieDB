@@ -35,10 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll() // allowed by anyone
-                .antMatchers(HttpMethod.POST, "/auth/sign-in").permitAll() // allowed by anyone
-
-//                .antMatchers(HttpMethod.POST,"/auth/register").permitAll() // allowed by anyone
-
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll() // allowed by anyone
                 .antMatchers(HttpMethod.GET, "/movie-url/**").permitAll() // allowed by anyone
                 .antMatchers(HttpMethod.GET, "/genre-search/**").permitAll() // allowed by anyone
                 .antMatchers(HttpMethod.GET, "/movie/**").permitAll() // allowed by anyone

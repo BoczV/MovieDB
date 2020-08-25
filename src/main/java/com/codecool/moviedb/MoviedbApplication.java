@@ -30,7 +30,7 @@ public class MoviedbApplication {
     public CommandLineRunner init(){
         return args -> {
             String encodePassword = passwordEncoder.encode("ugyi");
-            User user = User.builder().userName("Isti").password(encodePassword).build();
+            User user = User.builder().userName("Isti").password(encodePassword).email("dummy@dummy.com").build();
             user.setRoles(Arrays.asList("ROLE_USER"));
             userRepository.save(user);
         };
