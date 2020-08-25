@@ -48,10 +48,9 @@ public class JwtTokenServices {
     }
 
     String getTokenFromRequest(HttpServletRequest req) {
-        String unnecessaryTokenPart = "Bearer ";
         String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith(unnecessaryTokenPart)) {
-            return bearerToken.substring(unnecessaryTokenPart.length());
+        if (bearerToken != null) {
+            return bearerToken;
         }
         return null;
     }

@@ -1,5 +1,6 @@
-package com.codecool.moviedb.controller;
+package com.codecool.moviedb.controller.watch_movies;
 
+import com.codecool.moviedb.components.FindUserByCookie;
 import com.codecool.moviedb.components.MovieAPI;
 import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
@@ -22,10 +23,13 @@ public class WatchListController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private FindUserByCookie findUserByCookie;
+
     @GetMapping("/{language}")
     public String getWatchList(@PathVariable("language") String language) throws IOException, JSONException {
-        User dummyIsti = userRepository.getOne(1L);
-        Set<String> watchMovies = dummyIsti.getWatchMovies();
+        User actualUser = findUserByCookie.findUser();
+        Set<String> watchMovies = actualUser.getWatchMovies();
 
         StringBuilder result = new StringBuilder();
         result.append("{ 'results': [");
@@ -44,17 +48,17 @@ public class WatchListController {
         return jsonResult.toString();
     }
 
-    @PostMapping("/add/{movieId}")
+    @GetMapping("/add/{movieId}")
     public void addMovieToWatchList(@PathVariable("movieId") String movieId) {
-        User dummyIsti = userRepository.getOne(1L);
-        dummyIsti.getWatchMovies().add(movieId);
-        userRepository.save(dummyIsti);
+        User actualUser = findUserByCookie.findUser();
+        actualUser.getWatchMovies().add(movieId);
+        userRepository.save(actualUser);
     }
 
-    @PostMapping("/delete/{movieId}")
+    @GetMapping("/delete/{movieId}")
     public void deleteMovieToWatchList(@PathVariable("movieId") String movieId) {
-        User dummyIsti = userRepository.getOne(1L);
-        dummyIsti.getWatchMovies().remove(movieId);
-        userRepository.save(dummyIsti);
+        User actualUser = findUserByCookie.findUser();
+        actualUser.getWatchMovies().remove(movieId);
+        userRepository.save(actualUser);
     }
 }

@@ -1,6 +1,8 @@
 package com.codecool.moviedb.controller.watched_movies;
 
+import com.codecool.moviedb.components.FindUserByCookie;
 import com.codecool.moviedb.components.MovieAPI;
+import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,13 @@ public class AllWatchedMovieController {
     @Autowired
     MovieAPI movieAPI;
 
+    @Autowired
+    private FindUserByCookie findUserByCookie;
+
     @GetMapping("/{language}")
     public String getAllWatchedMovies(@PathVariable("language") String language) throws IOException, JSONException {
-        return getMoviesByIDAPICall((userRepository.getOne(1L).getWatchedMovies()), language);
+        User actualUser = findUserByCookie.findUser();
+        return getMoviesByIDAPICall((actualUser.getWatchedMovies()), language);
     }
 
     public String getMoviesByIDAPICall(Set<String> ids, String language) throws IOException, JSONException {

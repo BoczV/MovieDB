@@ -1,6 +1,8 @@
-package com.codecool.moviedb.controller;
+package com.codecool.moviedb.controller.suggestions;
 
+import com.codecool.moviedb.components.FindUserByCookie;
 import com.codecool.moviedb.components.MovieAPI;
+import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,21 @@ public class SuggestedController {
     
     @Autowired
     MovieAPI movieAPI;
+
+    @Autowired
+    private FindUserByCookie findUserByCookie;
     
     @GetMapping("/suggested/{language}")
     public String getSuggested(@PathVariable("language") String language) throws IOException, JSONException {
-        Set<String> likedMovies = userRepository.getOne(1L).getLikedMovies();
+        User actualUser = findUserByCookie.findUser();
+        Set<String> likedMovies = actualUser.getLikedMovies();
         return movieAPI.getAllSuggestedMovies(likedMovies, language);
     }
 
     @GetMapping("/not-suggested/{language}")
     public String getNotSuggested(@PathVariable("language") String language) throws IOException, JSONException {
-        Set<String> dislikedMovies = userRepository.getOne(1L).getDislikedMovies();
+        User actualUser = findUserByCookie.findUser();
+        Set<String> dislikedMovies = actualUser.getDislikedMovies();
         return movieAPI.getAllSuggestedMovies(dislikedMovies, language);
     }
 }

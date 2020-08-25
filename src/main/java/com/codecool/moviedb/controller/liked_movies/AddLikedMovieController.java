@@ -1,5 +1,6 @@
 package com.codecool.moviedb.controller.liked_movies;
 
+import com.codecool.moviedb.components.FindUserByCookie;
 import com.codecool.moviedb.model.User;
 import com.codecool.moviedb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,14 @@ public class AddLikedMovieController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private FindUserByCookie findUserByCookie;
+
     @GetMapping
     public void addLikedMovie(@PathVariable String id) {
-        User dummyIsti = userRepository.getOne(1L);
-        dummyIsti.getLikedMovies().add(id);
-        dummyIsti.getDislikedMovies().remove(id);
-        userRepository.save(dummyIsti);
+        User actualUser = findUserByCookie.findUser();
+        actualUser.getLikedMovies().add(id);
+        actualUser.getDislikedMovies().remove(id);
+        userRepository.save(actualUser);
     }
 }
