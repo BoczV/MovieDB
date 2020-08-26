@@ -38,9 +38,9 @@ public class MovieAPI {
         guestSession = apiDataProvider.getPreciseKey(KeyType.GUEST_SESSION);
     }
 
-    public JSONObject searchResults(String searchString, String language) throws JSONException, IOException {
+    public JSONObject searchResults(String searchString, String language, String searchType) throws JSONException, IOException {
         searchString = searchString.replaceAll(" ", "+");
-        String queryPath = "https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&query="
+        String queryPath = "https://api.themoviedb.org/3/search/" + searchType + "?api_key=" + apiKey + "&query="
                 + searchString + "&language=" + language;
         String result = remoteURLReader.readFromUrl(queryPath);
         return new JSONObject(result);
@@ -154,5 +154,10 @@ public class MovieAPI {
         result.deleteCharAt(result.length() - 1);
         result.append("] }");
         return String.valueOf(result);
+    }
+
+    public String getActorByIdByLanguage(String actorId, String language) throws IOException {
+        String url="https://api.themoviedb.org/3/person/" + actorId + "?api_key=" + apiKey + "&language=" + language;
+        return remoteURLReader.readFromUrl(url);
     }
 }
