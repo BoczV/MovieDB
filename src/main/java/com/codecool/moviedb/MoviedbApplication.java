@@ -31,7 +31,7 @@ public class MoviedbApplication {
         return args -> {
             String encodePassword = passwordEncoder.encode("ugyi");
             User user = User.builder().userName("Isti").password(encodePassword).email("dummy@dummy.com").build();
-            user.setRoles(Arrays.asList("ROLE_USER"));
+            user.setRoles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
             userRepository.save(user);
         };
 
