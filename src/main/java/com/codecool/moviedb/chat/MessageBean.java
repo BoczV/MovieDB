@@ -1,23 +1,28 @@
 package com.codecool.moviedb.chat;
 
 
+
+import lombok.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Builder
 public class MessageBean {
     private String name;
     private String message;
 
-    public String getName() {
-        return name;
-    }
+    private Long movieId;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    private Date date;
 }
