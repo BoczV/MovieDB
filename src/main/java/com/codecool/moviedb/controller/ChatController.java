@@ -20,9 +20,7 @@ public class ChatController {
 
     @GetMapping("/{movieId}")
     public String getChatByMovieId(@PathVariable("movieId") String movieId) throws JSONException {
-        System.out.println("élek");
         List<MessageBean> messages = messageBeanRepository.findAllByMovieId(Long.parseLong(movieId));
-        System.out.println(messages);
         JSONArray jsonMessages = new JSONArray();
         for (MessageBean messageBean: messages) {
             JSONObject messageJsonObject = new JSONObject();
@@ -30,7 +28,6 @@ public class ChatController {
             messageJsonObject.put("name", messageBean.getName());
             jsonMessages.put(messageJsonObject);
         }
-        System.out.println(jsonMessages.toString());
         return jsonMessages.toString();
 
     }
