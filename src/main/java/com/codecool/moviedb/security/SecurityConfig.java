@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/popular-movies/**").permitAll() // allowed by anyone
                 .antMatchers("/websocket-chat/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
                 .anyRequest().authenticated() // anything else requires authentication
                 .and()
