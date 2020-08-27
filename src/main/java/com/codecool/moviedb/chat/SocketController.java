@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class SocketController {
     @MessageMapping("/user-all")
     @SendTo("/topic/user")
     public MessageBean sendToAll(@Payload MessageBean message) {
-        message.setDate(new Date());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        message.setDate(formatter.format(new Date()));
         messageBeanRepository.save(message);
         deleteOldMessages(message.getMovieId());
         return message;

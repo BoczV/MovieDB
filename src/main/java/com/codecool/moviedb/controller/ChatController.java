@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class ChatController {
             JSONObject messageJsonObject = new JSONObject();
             messageJsonObject.put("message", messageBean.getMessage());
             messageJsonObject.put("name", messageBean.getName());
+
+            messageJsonObject.put("date", messageBean.getDate());
             jsonMessages.put(messageJsonObject);
         }
         return jsonMessages.toString();

@@ -24,5 +24,5 @@ public class MessageBean {
     @GeneratedValue
     private Long id;
 
-    private Date date;
+    private String date;
 }
