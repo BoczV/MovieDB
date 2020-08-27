@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -42,7 +41,6 @@ public class UsersListController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userRepository.deleteUserById(id);
-        System.out.println("kész");
 
     }
 
