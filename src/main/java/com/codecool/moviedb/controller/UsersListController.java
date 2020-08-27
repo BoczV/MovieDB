@@ -28,12 +28,12 @@ public class UsersListController {
         JSONArray jsonArray = new JSONArray();
         for (User user : users) {
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", user.getId());
             jsonObject.put("userName", user.getUserName());
             jsonObject.put("email", user.getEmail());
             jsonObject.put("roles", user.getRoles());
             jsonArray.put(jsonObject);
         }
-        System.out.println(jsonArray.toString());
         return jsonArray.toString();
     }
 }
