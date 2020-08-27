@@ -39,7 +39,8 @@ public class UsersListController {
     @Modifying
     @Transactional
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Long id){
-        userRepository.deleteById(id);
+    public void deleteUser(@PathVariable Long id) {
+        userRepository.deleteUserById(id);
+
     }
 }
